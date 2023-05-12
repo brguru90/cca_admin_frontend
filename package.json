@@ -88,7 +88,7 @@
     ]
   },
   "prettier": {
-    "printWidth": 140,
+    "printWidth": 150,
     "bracketSpacing": false,
     "trailingComma": "es5",
     "arrowParens": "always",
