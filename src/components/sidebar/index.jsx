@@ -26,42 +26,23 @@ export default function Home() {
                             <span>A</span>dmin Panel
                         </div>
                     </div>
-                    <Menu
-                        theme="dark"
-                        mode="inline"
-                        defaultSelectedKeys={[window.location.pathname]}
-                    >
+                    <Menu theme="dark" mode="inline" defaultSelectedKeys={[window.location.pathname]}>
                         <Menu.Item key="/home" icon={<HomeIcon className="menu_icon" />}>
                             <a href="/home">Dashboard</a>
                         </Menu.Item>
-                        <Menu.Item
-                            key="/video"
-                            icon={<VideoIcon className="menu_icon" />}
-                        >
+                        <Menu.Item key="/video" icon={<VideoIcon className="menu_icon" />}>
                             <a href="/video">Videos</a>
                         </Menu.Item>
-                        <Menu.Item
-                            key="#/playlist"
-                            icon={<PlaylistIcon className="menu_icon" />}
-                        >
+                        <Menu.Item key="#/playlist" icon={<PlaylistIcon className="menu_icon" />}>
                             <a href="#/playlist">Playlist</a>
                         </Menu.Item>
-                        <Menu.Item
-                            key="#/subscription"
-                            icon={<UsersIcon className="menu_icon" />}
-                        >
+                        <Menu.Item key="#/subscription" icon={<UsersIcon className="menu_icon" />}>
                             <a href="#/subscription">Subscriptions</a>
                         </Menu.Item>
-                        <Menu.Item
-                            key="#/users"
-                            icon={<AdminUsers className="menu_icon" />}
-                        >
+                        <Menu.Item key="#/users" icon={<AdminUsers className="menu_icon" />}>
                             <a href="#/users">Users</a>
                         </Menu.Item>
-                        <Menu.Item
-                            key="#/logout"
-                            icon={<LogoutIcon className="menu_icon" />}
-                        >
+                        <Menu.Item key="#/logout" icon={<LogoutIcon className="menu_icon" />}>
                             <a href="#/logout">Logout</a>
                         </Menu.Item>
                         {/* <SubMenu  key="#/skills" icon={<FaClipboardList />} title="Skills">
@@ -75,10 +56,7 @@ export default function Home() {
                     <Header className="site-layout-background" style={{padding: 0}}>
                         <div className="header-content">
                             <div className="collapse_icon_wrapper">
-                                <TbLayoutSidebarLeftCollapse
-                                    className="collapse_icon"
-                                    onClick={toggleSlideBar}
-                                />
+                                <TbLayoutSidebarLeftCollapse className="collapse_icon" onClick={toggleSlideBar} />
                             </div>
                         </div>
                     </Header>
