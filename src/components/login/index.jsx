@@ -60,7 +60,6 @@ export default function Login() {
                     >
                         <Input type="email" />
                     </Form.Item>
-
                     <Form.Item
                         label="Password"
                         name="password"
@@ -69,7 +68,6 @@ export default function Login() {
                     >
                         <Input.Password />
                     </Form.Item>
-
                     <Form.Item wrapperCol={{offset: 8, span: 16}}>
                         <Button type="primary" htmlType="submit">
                             Submit
