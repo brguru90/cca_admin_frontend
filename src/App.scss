@@ -1,6 +1,11 @@
+@import "./color_constants.scss";
+
 .App {
-  text-align: center;
-  @import "../node_modules//bootstrap/scss//bootstrap.scss";
+  min-width: 100%;
+  min-height: 100%;
+  // @import "../node_modules//bootstrap/scss//bootstrap.scss";
 }
+
+
 
 

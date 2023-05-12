@@ -1,0 +1,19 @@
+:root {
+    // predefined
+    --light_theme-text-color: #001529;
+    --light_theme-text-strong-color: #001120;
+    --light_theme-bg-color: white;
+    --light_theme-bg-strong-color: #f0f2f5;
+
+    --dark_theme-text-color: white;
+    --dark_theme-text-strong-color: #e4e3ea;
+    --dark_theme-bg-color: #001529;
+    --dark_theme-bg-strong-color: #001120;
+
+
+    // dynamic to manipulated by js
+    --text-color: #001529;
+    --text-strong-color: #001120;
+    --bg-color: white;
+    --bg-strong-color: #f0f2f5;
+}
