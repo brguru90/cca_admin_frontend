@@ -1,6 +1,6 @@
 import React, {useState} from "react"
 import "./style.scss"
-import {Outlet} from "react-router-dom"
+import {Outlet, useNavigate} from "react-router-dom"
 import {Layout, Menu} from "antd"
 import {AiFillHome as HomeIcon} from "react-icons/ai"
 import {TbLayoutSidebarLeftCollapse} from "react-icons/tb"
@@ -9,13 +9,32 @@ import {RiPlayList2Fill as PlaylistIcon} from "react-icons/ri"
 import {FaUsers as UsersIcon} from "react-icons/fa"
 import {RiShieldUserFill as AdminUsers} from "react-icons/ri"
 import {RiLogoutBoxLine as LogoutIcon} from "react-icons/ri"
+import axios from "axios"
+import Swal from "sweetalert2"
 
 export default function Home() {
     const {Header, Sider, Content} = Layout
+    let navigate = useNavigate()
     // const { SubMenu } = Menu;
 
     const [collapsed, setCollapsed] = useState(false)
     const toggleSlideBar = () => setCollapsed((state) => !state)
+
+    const Logout = () => {
+        axios
+            .get("/api/user/logout/")
+            .then((res) => {
+                console.log({res})
+                navigate("/")
+            })
+            .catch((error) => {
+                console.log({error})
+                Swal.fire({
+                    title: "Unknown error",
+                    icon: "error",
+                })
+            })
+    }
 
     return (
         <div className="home_page">
@@ -28,22 +47,34 @@ export default function Home() {
                     </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={[window.location.pathname]}>
                         <Menu.Item key="/home" icon={<HomeIcon className="menu_icon" />}>
-                            <a href="/home">Dashboard</a>
+                            <a href="javascript:void(0)" onClick={() => navigate("/home")}>
+                                Dashboard
+                            </a>
                         </Menu.Item>
                         <Menu.Item key="/video" icon={<VideoIcon className="menu_icon" />}>
-                            <a href="/video">Videos</a>
+                            <a href="javascript:void(0)" onClick={() => navigate("/video")}>
+                                Videos
+                            </a>
                         </Menu.Item>
-                        <Menu.Item key="#/playlist" icon={<PlaylistIcon className="menu_icon" />}>
-                            <a href="#/playlist">Playlist</a>
+                        <Menu.Item key="/playlist" icon={<PlaylistIcon className="menu_icon" />}>
+                            <a href="javascript:void(0)" onClick={() => navigate("/playlist")}>
+                                Playlist
+                            </a>
                         </Menu.Item>
-                        <Menu.Item key="#/subscription" icon={<UsersIcon className="menu_icon" />}>
-                            <a href="#/subscription">Subscriptions</a>
+                        <Menu.Item key="/subscriptions" icon={<UsersIcon className="menu_icon" />}>
+                            <a href="javascript:void(0)" onClick={() => navigate("/subscriptions")}>
+                                Subscriptions
+                            </a>
                         </Menu.Item>
-                        <Menu.Item key="#/users" icon={<AdminUsers className="menu_icon" />}>
-                            <a href="#/users">Users</a>
+                        <Menu.Item key="/users" icon={<AdminUsers className="menu_icon" />}>
+                            <a href="javascript:void(0)" onClick={() => navigate("/users")}>
+                                Users
+                            </a>
                         </Menu.Item>
-                        <Menu.Item key="#/logout" icon={<LogoutIcon className="menu_icon" />}>
-                            <a href="#/logout">Logout</a>
+                        <Menu.Item key="/logout" icon={<LogoutIcon className="menu_icon" />}>
+                            <a href="javascript:void(0)" onClick={Logout}>
+                                Logout
+                            </a>
                         </Menu.Item>
                         {/* <SubMenu  key="#/skills" icon={<FaClipboardList />} title="Skills">
               <Menu.Item key="#/reactjs"><a href="#/reactjs">Videos</a></Menu.Item>

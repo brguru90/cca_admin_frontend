@@ -5,6 +5,9 @@ import SideBar from "./components/sidebar/index.jsx"
 import Login from "./pages/login.jsx"
 import Home from "./pages/home.jsx"
 import Video from "./pages/video.jsx"
+import Playlist from "./pages/playlist"
+import Subscriptions from "./pages/subscriptions"
+import Users from "./pages/users"
 import "./utils/login_check"
 import "antd/dist/antd.css"
 
@@ -18,6 +21,9 @@ export default class App extends Component {
                         <Route path="/" element={<SideBar />}>
                             <Route path="/home" exact element={<Home />} />
                             <Route path="/video" exact element={<Video />} />
+                            <Route path="/playlist" exact element={<Playlist />} />
+                            <Route path="/subscriptions" exact element={<Subscriptions />} />
+                            <Route path="/users" exact element={<Users />} />
                         </Route>
                         <Route path="*" element={<h1>404 Not found</h1>} />
                     </Routes>

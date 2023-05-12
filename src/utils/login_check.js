@@ -5,7 +5,7 @@ axios.interceptors.response.use(
     (res) => res,
     (error) => {
         const originalRequest = error.config
-        if (!originalRequest.url.endsWith("api/login/")) {
+        if (!originalRequest.url.endsWith("api/login/") && !originalRequest.url.endsWith("api/login_status/")) {
             if (error.response.status == 400 || error.response.status == 403) {
                 Swal.fire({
                     title: "Logged out",

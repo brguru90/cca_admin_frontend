@@ -4,9 +4,24 @@ import {Button, Form, Input} from "antd"
 import {useNavigate} from "react-router-dom"
 import axios from "axios"
 import Swal from "sweetalert2"
+import {useEffect} from "react"
 
 export default function Login() {
     let navigate = useNavigate()
+
+    const LoginStatusCheck = () => {
+        axios
+            .get("/api/login_status/")
+            .then((res) => {
+                console.log({res})
+                navigate("/home")
+            })
+            .catch(() => {})
+    }
+
+    useEffect(() => {
+        LoginStatusCheck()
+    }, [])
 
     const onSubmit = ({email, password}) => {
         axios({
