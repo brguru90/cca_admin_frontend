@@ -1,5 +1,6 @@
 import React from "react"
+import Videos from "../components/videos"
 
 export default function Video() {
-    return <div>Video</div>
+    return <Videos />
 }
