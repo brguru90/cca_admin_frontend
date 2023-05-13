@@ -26,7 +26,7 @@ export default function Login() {
     const onSubmit = ({email, password}) => {
         axios({
             method: "post",
-            url: "/api/login/",
+            url: "/api/login/?access_level=super_admin",
             data: JSON.stringify({email, password}), // you are sending body instead
             headers: {
                 "Content-Type": "application/json",

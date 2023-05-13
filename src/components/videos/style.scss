@@ -55,13 +55,17 @@
                         .ant-form-item-label {
                             min-width: max-content;
                             width: calc(min(200px, 100%));
-                            // flex: 1 0;
+                            flex: 1 0;
                         }
 
                         .ant-form-item-control {
                             flex: 1 1;
                             // min-width: max-content;
                             min-width: calc(min(200px, 100%));
+
+                            // .ant-upload.ant-upload-drag{
+                            //     max-width: 200px;
+                            // }
                         }
                     }
                 }
