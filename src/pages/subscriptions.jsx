@@ -1,5 +1,5 @@
 import React from "react"
 
-export default function Subscriptions() {
+export default function SubscriptionsPage() {
     return <div>Subscriptions</div>
 }
