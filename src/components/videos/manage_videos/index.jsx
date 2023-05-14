@@ -86,7 +86,7 @@ export default function manageVideos() {
     return (
         <div className="manage_videos_page">
             <div className="manage_video_sec">
-                <h1 className="form_title">manage videos</h1>
+                <h1 className="form_title">Manage videos</h1>
 
                 <div className="form_body">
                     <div>

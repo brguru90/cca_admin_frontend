@@ -1,0 +1,27 @@
+.video_playlist {
+
+    @import "../../../node_modules//bootstrap/scss//bootstrap.scss";
+
+    .table_wrap {
+        background-color: white;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+
+        &:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        padding: 61px 64px;
+        border-radius: 6px;
+
+        .form_title {
+            font-weight: bold;
+            font-size: 29px;
+        }
+
+        .form_body {
+            padding-top: 40px;
+        }
+
+    }
+
+}
