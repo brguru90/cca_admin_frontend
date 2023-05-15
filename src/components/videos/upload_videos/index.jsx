@@ -59,8 +59,9 @@ export default function UploadVideos() {
                     })
                 } else {
                     Swal.fire({
-                        title: "Unknown error",
-                        icon: "error",
+                        title: "Error",
+                        icon: error?.response?.data?.status || "error",
+                        text: error?.response?.data?.msg,
                     })
                 }
             })

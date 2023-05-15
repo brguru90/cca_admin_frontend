@@ -1,8 +1,9 @@
-import React, {Component} from "react"
+import React from "react"
 import Home from "../components/home"
+import LoginCheck from "../sharedComponet/LoginCheck"
 
-export default class HomePage extends Component {
-    render() {
-        return <Home />
-    }
+function HomePage() {
+    return <Home />
 }
+
+export default LoginCheck(HomePage)
