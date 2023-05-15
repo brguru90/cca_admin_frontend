@@ -2,6 +2,9 @@
 
     @import "../../../node_modules//bootstrap/scss//bootstrap.scss";
 
+
+    max-height: 100%;
+
     .table_wrap {
         background-color: white;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -20,6 +23,30 @@
 
         .form_body {
             padding-top: 40px;
+
+            .table-responsive {
+                // max-height: 100%;
+                display: flex;
+            }
+
+            table {
+                overflow-y: scroll;
+
+                thead {                    
+                    position: sticky;
+                    top: 0;
+                    z-index: 1;
+                    background-color: white;
+                    td,th{
+                        border: 0px;
+                    }
+                }
+
+                tbody {
+                    overflow-y: scroll;
+
+                }
+            }
         }
 
     }

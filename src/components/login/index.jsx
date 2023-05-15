@@ -11,10 +11,12 @@ export default function Login() {
 
     const LoginStatusCheck = () => {
         axios
-            .get("/api/login_status/")
+            .get("/api/login_status/?access_level=super_admin")
             .then((res) => {
-                console.log({res})
-                navigate("/home")
+                if (res.status == 200) {
+                    console.log({res})
+                    navigate("/home")
+                }
             })
             .catch(() => {})
     }

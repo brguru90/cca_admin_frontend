@@ -37,7 +37,7 @@ export default function Home() {
     }
 
     return (
-        <div className="home_page">
+        <div className="side_bar_wrapper">
             <Layout>
                 <Sider trigger={null} collapsible collapsed={collapsed}>
                     <div className="app_info">
