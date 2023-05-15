@@ -1,5 +1,8 @@
 import React from "react"
+import LoginCheck from "../sharedComponet/LoginCheck"
 
-export default function UsersPage() {
+function UsersPage() {
     return <div>Users</div>
 }
+
+export default LoginCheck(UsersPage)

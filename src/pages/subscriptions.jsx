@@ -1,5 +1,8 @@
 import React from "react"
+import LoginCheck from "../sharedComponet/LoginCheck"
 
-export default function SubscriptionsPage() {
+function SubscriptionsPage() {
     return <div>Subscriptions</div>
 }
+
+export default LoginCheck(SubscriptionsPage)
