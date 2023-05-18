@@ -11,7 +11,7 @@ export default function manageVideos() {
         axios.get("/api/admin/upload_list/").then((res) => {
             if (res.status == 200) {
                 setUploadedVideos(
-                    res.data?.data?.list?.map((item) => {
+                    res.data?.data?.map((item) => {
                         return {
                             ...item,
                             key: item["_id"],

@@ -34,6 +34,12 @@ export default function Home() {
                     icon: "error",
                 })
             })
+        return false
+    }
+
+    const navigateTo = (to) => {
+        navigate(to)
+        return false
     }
 
     return (
@@ -47,34 +53,22 @@ export default function Home() {
                     </div>
                     <Menu theme="dark" mode="inline" defaultSelectedKeys={[window.location.pathname]}>
                         <Menu.Item key="/home" icon={<HomeIcon className="menu_icon" />}>
-                            <a href="javascript:void(0)" onClick={() => navigate("/home")}>
-                                Dashboard
-                            </a>
+                            <a onClick={() => navigateTo("/home")}>Dashboard</a>
                         </Menu.Item>
                         <Menu.Item key="/video" icon={<VideoIcon className="menu_icon" />}>
-                            <a href="javascript:void(0)" onClick={() => navigate("/video")}>
-                                Videos
-                            </a>
+                            <a onClick={() => navigateTo("/video")}>Videos</a>
                         </Menu.Item>
                         <Menu.Item key="/playlist" icon={<PlaylistIcon className="menu_icon" />}>
-                            <a href="javascript:void(0)" onClick={() => navigate("/playlist")}>
-                                Playlist
-                            </a>
+                            <a onClick={() => navigateTo("/playlist")}>Playlist</a>
                         </Menu.Item>
                         <Menu.Item key="/subscriptions" icon={<UsersIcon className="menu_icon" />}>
-                            <a href="javascript:void(0)" onClick={() => navigate("/subscriptions")}>
-                                Subscriptions
-                            </a>
+                            <a onClick={() => navigateTo("/subscriptions")}>Subscriptions</a>
                         </Menu.Item>
                         <Menu.Item key="/users" icon={<AdminUsers className="menu_icon" />}>
-                            <a href="javascript:void(0)" onClick={() => navigate("/users")}>
-                                Users
-                            </a>
+                            <a onClick={() => navigateTo("/users")}>Users</a>
                         </Menu.Item>
                         <Menu.Item key="/logout" icon={<LogoutIcon className="menu_icon" />}>
-                            <a href="javascript:void(0)" onClick={Logout}>
-                                Logout
-                            </a>
+                            <a onClick={Logout}>Logout</a>
                         </Menu.Item>
                         {/* <SubMenu  key="#/skills" icon={<FaClipboardList />} title="Skills">
               <Menu.Item key="#/reactjs"><a href="#/reactjs">Videos</a></Menu.Item>
