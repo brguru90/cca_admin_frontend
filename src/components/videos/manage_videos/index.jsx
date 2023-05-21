@@ -3,6 +3,7 @@ import "./style.scss"
 import axios from "axios"
 import {Button, Table, Space} from "antd"
 import {useEffect} from "react"
+import Swal from "sweetalert2"
 
 export default function manageVideos() {
     const [uploadedVideos, setUploadedVideos] = useState([])
@@ -65,13 +66,81 @@ export default function manageVideos() {
 
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const [loading, setLoading] = useState(false)
-    const start = () => {
+
+    const generateVideoStream = () => {
         setLoading(true)
-        // ajax request after empty completing
-        setTimeout(() => {
-            setSelectedRowKeys([])
-            setLoading(false)
-        }, 1000)
+        axios({
+            method: "post",
+            url: "/api/admin/generate_video_stream/",
+            data: JSON.stringify({video_ids: selectedRowKeys}), // you are sending body instead
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => {
+                console.log({res})
+                Swal.fire({
+                    title: "Started",
+                    icon: "success",
+                })
+                setSelectedRowKeys([])
+                setLoading(false)
+            })
+            .catch((error) => {
+                setLoading(false)
+                if (error.response.status == 403) {
+                    Swal.fire({
+                        title: "wrong credential!",
+                        icon: "error",
+                        timer: 2000,
+                        timerProgressBar: true,
+                    })
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        icon: error?.response?.data?.status || "error",
+                        text: error?.response?.data?.msg,
+                    })
+                }
+            })
+    }
+    const deleteVideo = () => {
+        setLoading(true)
+        axios({
+            method: "delete",
+            url: "/api/admin/delete_streaming_video/",
+            data: JSON.stringify({video_ids: selectedRowKeys}), // you are sending body instead
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => {
+                console.log({res})
+                Swal.fire({
+                    title: "Deleted",
+                    icon: "success",
+                })
+                setSelectedRowKeys([])
+                setLoading(false)
+                fetchVideoList()
+            })
+            .catch((error) => {
+                setLoading(false)
+                if (error.response.status == 403) {
+                    Swal.fire({
+                        title: "wrong credential!",
+                        icon: "error",
+                        timer: 2000,
+                        timerProgressBar: true,
+                    })
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        icon: error?.response?.data?.status || "error",
+                        text: error?.response?.data?.msg,
+                    })
+                }
+            })
     }
     const onSelectChange = (newSelectedRowKeys) => {
         console.log("selectedRowKeys changed: ", newSelectedRowKeys)
@@ -95,10 +164,10 @@ export default function manageVideos() {
                                 marginBottom: 16,
                             }}
                         >
-                            <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
+                            <Button type="primary" onClick={deleteVideo} disabled={!hasSelected} loading={loading}>
                                 Delete
                             </Button>
-                            <Button type="primary" onClick={start} disabled={!hasSelected} loading={loading}>
+                            <Button type="primary" onClick={generateVideoStream} disabled={!hasSelected} loading={loading}>
                                 Create or update Stream
                             </Button>
                             <span
