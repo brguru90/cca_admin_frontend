@@ -55,6 +55,13 @@ export default function manageVideos() {
             },
         },
         {
+            title: "Stream generated",
+            dataIndex: "link_to_video_stream",
+            render: function VisibilityStatus(link) {
+                return <Badge status={link ? "success" : "error"} text={link ? "Yes" : "No"} />
+            },
+        },
+        {
             title: "Last updated",
             dataIndex: "updatedAt",
         },
