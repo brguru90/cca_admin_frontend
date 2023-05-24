@@ -9,6 +9,8 @@ import {RiPlayList2Fill as PlaylistIcon} from "react-icons/ri"
 import {FaUsers as UsersIcon} from "react-icons/fa"
 import {RiShieldUserFill as AdminUsers} from "react-icons/ri"
 import {RiLogoutBoxLine as LogoutIcon} from "react-icons/ri"
+import {MdOutlineMenuBook as BookIcon} from "react-icons/md"
+
 import axios from "axios"
 import Swal from "sweetalert2"
 
@@ -57,6 +59,9 @@ export default function Home() {
                         </Menu.Item>
                         <Menu.Item key="/video" icon={<VideoIcon className="menu_icon" />}>
                             <a onClick={() => navigateTo("/video")}>Videos</a>
+                        </Menu.Item>
+                        <Menu.Item key="/study_materials" icon={<BookIcon className="menu_icon" />}>
+                            <a onClick={() => navigateTo("/study_materials")}>Study Materials</a>
                         </Menu.Item>
                         <Menu.Item key="/playlist" icon={<PlaylistIcon className="menu_icon" />}>
                             <a onClick={() => navigateTo("/playlist")}>Playlist</a>

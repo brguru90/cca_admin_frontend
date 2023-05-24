@@ -1,0 +1,79 @@
+.upload_docs_page {
+
+    .upload_doc_sec {
+
+        .form_title {
+            font-weight: bold;
+            font-size: 29px;
+        }
+
+        .form_body {
+            padding-top: 40px;
+
+            .ant-form.ant-form-horizontal.actual_form {
+                padding: 20px;
+                width: max-content;
+                max-width: 100%;
+            }
+
+            // .ant-row.ant-form-item{
+            //     width: max-content;
+            //     max-width: 100%;
+            // }
+
+            .actual_form {
+                display: flex;
+                flex-direction: row;
+                column-gap: 20px;
+                flex-wrap: wrap;
+
+                .form_col {
+                    display: flex;
+                    flex-direction: column;
+                    flex-grow: 1;
+                    flex-basis: calc(max(33%, 400px) - 20px);
+
+                    .ant-row.ant-form-item {
+                        // flex: 1 0;
+
+                        .ant-col {
+                            // flex-basis: 50%;
+                            max-width: none;
+                        }
+
+                        .ant-form-item-label {
+                            min-width: max-content;
+                            width: calc(min(200px, 100%));
+                            flex: 1 0;
+                        }
+
+                        .ant-form-item-control {
+                            flex: 1 1;
+                            // min-width: max-content;
+                            min-width: calc(min(200px, 100%));
+
+                            // .ant-upload.ant-upload-drag{
+                            //     max-width: 200px;
+                            // }
+                        }
+                    }
+                }
+
+                .form_row {
+                    flex-direction: row;
+                    flex: 1 0 100%;
+                }
+            }
+
+
+            .ant-form-item-label {
+                text-align: left;
+                margin: 2px 5px;
+            }
+        }
+
+
+    }
+
+
+}

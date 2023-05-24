@@ -5,6 +5,7 @@ import SideBar from "./components/sidebar/index.jsx"
 import Login from "./pages/login.jsx"
 import Home from "./pages/home.jsx"
 import Video from "./pages/video.jsx"
+import StudyMaterials from "./pages/study_materials.jsx"
 import Playlist from "./pages/playlist"
 import Subscriptions from "./pages/subscriptions"
 import Users from "./pages/users"
@@ -21,6 +22,7 @@ export default class App extends Component {
                         <Route path="/" element={<SideBar />}>
                             <Route path="/home" exact element={<Home />} />
                             <Route path="/video" exact element={<Video />} />
+                            <Route path="/study_materials" exact element={<StudyMaterials />} />
                             <Route path="/playlist" exact element={<Playlist />} />
                             <Route path="/subscriptions" exact element={<Subscriptions />} />
                             <Route path="/users" exact element={<Users />} />
