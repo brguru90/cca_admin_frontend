@@ -9,7 +9,7 @@ export default function ManageStudyMaterials() {
     const [uploadeddocs, setUploadeddocs] = useState([])
 
     const fetchdocList = () => {
-        axios.get("/api/admin/upload_list/").then((res) => {
+        axios.get("/api/admin/doc_upload_list/").then((res) => {
             if (res.status == 200) {
                 setUploadeddocs(
                     res.data?.data?.map((item) => {
@@ -44,7 +44,11 @@ export default function ManageStudyMaterials() {
             dataIndex: "description",
         },
         {
-            title: "Created by",
+            title: "Category",
+            dataIndex: "category",
+        },
+        {
+            title: "Author",
             dataIndex: "created_by_user",
         },
         {
@@ -55,11 +59,8 @@ export default function ManageStudyMaterials() {
             },
         },
         {
-            title: "Stream generated",
-            dataIndex: "link_to_doc_stream",
-            render: function VisibilityStatus(link) {
-                return <Badge status={link ? "success" : "error"} text={link ? "Yes" : "No"} />
-            },
+            title: "Price",
+            dataIndex: "price",
         },
         {
             title: "Last updated",
@@ -81,49 +82,12 @@ export default function ManageStudyMaterials() {
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const [loading, setLoading] = useState(false)
 
-    const generatedocStream = () => {
-        setLoading(true)
-        axios({
-            method: "post",
-            url: "/api/admin/generate_doc_stream/",
-            data: JSON.stringify({doc_ids: selectedRowKeys}), // you are sending body instead
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => {
-                console.log({res})
-                Swal.fire({
-                    title: "Started",
-                    icon: "success",
-                })
-                setSelectedRowKeys([])
-                setLoading(false)
-            })
-            .catch((error) => {
-                setLoading(false)
-                if (error.response.status == 403) {
-                    Swal.fire({
-                        title: "wrong credential!",
-                        icon: "error",
-                        timer: 2000,
-                        timerProgressBar: true,
-                    })
-                } else {
-                    Swal.fire({
-                        title: "Error",
-                        icon: error?.response?.data?.status || "error",
-                        text: error?.response?.data?.msg,
-                    })
-                }
-            })
-    }
     const deletedoc = () => {
         setLoading(true)
         axios({
             method: "delete",
-            url: "/api/admin/delete_streaming_doc/",
-            data: JSON.stringify({doc_ids: selectedRowKeys}), // you are sending body instead
+            url: "/api/admin/delete_study_material/",
+            data: JSON.stringify({docs_ids: selectedRowKeys}),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -180,9 +144,6 @@ export default function ManageStudyMaterials() {
                         >
                             <Button type="primary" onClick={deletedoc} disabled={!hasSelected} loading={loading}>
                                 Delete
-                            </Button>
-                            <Button type="primary" onClick={generatedocStream} disabled={!hasSelected} loading={loading}>
-                                Create or update Stream
                             </Button>
                             <span
                                 style={{

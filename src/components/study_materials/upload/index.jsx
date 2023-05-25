@@ -1,7 +1,7 @@
-import React, {useState} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import "./style.scss"
-import {Button, Checkbox, Form, Input, Upload} from "antd"
-import {InboxOutlined} from "@ant-design/icons"
+import {Button, Checkbox, Form, Input, Upload, Space, Select, Divider} from "antd"
+import {InboxOutlined, PlusOutlined} from "@ant-design/icons"
 import axios from "axios"
 import Swal from "sweetalert2"
 import {Toast} from "../../../utils/utils"
@@ -10,8 +10,38 @@ export default function UploadStudyMaterial() {
     const [studyMaterialUploadList, setStudyMaterialUploadList] = useState([])
     const [imageUploadList, setImageUploadList] = useState([])
 
+    const [categories, setCategories] = useState([])
+    const [name, setCategory] = useState("")
+    const inputRef = useRef(null)
+    const indexRef = useRef(0)
+
+    const onCategoryChange = (event) => {
+        setCategory(event.target.value)
+    }
+
+    const addCategory = (e) => {
+        e.preventDefault()
+        setCategories([...categories, name || `New item ${indexRef.current++}`])
+        setCategory("")
+        setTimeout(() => {
+            inputRef.current?.focus()
+        }, 0)
+    }
+
+    const fetchdocList = () => {
+        axios.get("/api/admin/doc_upload_list/").then((res) => {
+            if (res.status == 200) {
+                setCategories([...new Set(res.data?.data?.map((item) => item.category))])
+            }
+        })
+    }
+
+    useEffect(() => {
+        fetchdocList()
+    }, [])
+
     const onFinish = (values) => {
-        const {title, created_by, description, is_live} = values
+        const {title, created_by, description, price, is_live, category} = values
 
         console.log({
             onFinish: {
@@ -25,7 +55,9 @@ export default function UploadStudyMaterial() {
         formData.append("doc_file", studyMaterialUploadList[0]?.originFileObj)
         formData.append("preview_image_file", imageUploadList[0]?.originFileObj)
         formData.append("title", title)
-        formData.append("created_by", created_by)
+        formData.append("price", price)
+        formData.append("category", category)
+        formData.append("author", created_by)
         formData.append("description", description)
         formData.append("is_live", is_live || false)
         axios({
@@ -91,6 +123,9 @@ export default function UploadStudyMaterial() {
                             <Form.Item label="Description" name="description">
                                 <Input />
                             </Form.Item>
+                            <Form.Item label="Price" name="price">
+                                <Input />
+                            </Form.Item>
                             <Form.Item label="Document">
                                 <Form.Item
                                     name="doc_file"
@@ -112,10 +147,6 @@ export default function UploadStudyMaterial() {
                                     </Upload.Dragger>
                                 </Form.Item>
                             </Form.Item>
-
-                            <Form.Item label="Price" name="price">
-                                <Input />
-                            </Form.Item>
                         </div>
 
                         <div className="form_col">
@@ -124,6 +155,25 @@ export default function UploadStudyMaterial() {
                             </Form.Item>
                             <Form.Item name="is_live" label="visibility" valuePropName="checked">
                                 <Checkbox>Visible</Checkbox>
+                            </Form.Item>
+                            <Form.Item label="Category" name="category" rules={[{required: true, message: "Required"}]}>
+                                <Select
+                                    style={{width: 300}}
+                                    placeholder="Grouping category"
+                                    dropdownRender={(menu) => (
+                                        <>
+                                            {menu}
+                                            <Divider style={{margin: "8px 0"}} />
+                                            <Space style={{padding: "0 8px 4px"}}>
+                                                <Input placeholder="Select option" ref={inputRef} value={name} onChange={onCategoryChange} />
+                                                <Button type="text" icon={<PlusOutlined />} onClick={addCategory}>
+                                                    Add item
+                                                </Button>
+                                            </Space>
+                                        </>
+                                    )}
+                                    options={categories.map((item) => ({label: item, value: item}))}
+                                />
                             </Form.Item>
                             <Form.Item label="Cover Image" rules={[{required: true, message: "Required"}]}>
                                 <Form.Item
