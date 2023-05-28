@@ -63,6 +63,10 @@ export default function ManageStudyMaterials() {
             dataIndex: "price",
         },
         {
+            title: "Enroll Days",
+            dataIndex: "enroll_days",
+        },
+        {
             title: "Last updated",
             dataIndex: "updatedAt",
         },

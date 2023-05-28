@@ -41,7 +41,7 @@ export default function UploadStudyMaterial() {
     }, [])
 
     const onFinish = (values) => {
-        const {title, created_by, description, price, is_live, category} = values
+        const {title, created_by, description, price, is_live, category, enroll_days} = values
 
         console.log({
             onFinish: {
@@ -56,6 +56,7 @@ export default function UploadStudyMaterial() {
         formData.append("preview_image_file", imageUploadList[0]?.originFileObj)
         formData.append("title", title)
         formData.append("price", price)
+        formData.append("enroll_days", enroll_days)
         formData.append("category", category)
         formData.append("author", created_by)
         formData.append("description", description)
@@ -126,6 +127,9 @@ export default function UploadStudyMaterial() {
                             <Form.Item label="Price" name="price">
                                 <Input />
                             </Form.Item>
+                            <Form.Item label="Enroll for days" name="enroll_days">
+                                <Input />
+                            </Form.Item>
                             <Form.Item label="Document">
                                 <Form.Item
                                     name="doc_file"
@@ -175,6 +179,8 @@ export default function UploadStudyMaterial() {
                                     options={categories.map((item) => ({label: item, value: item}))}
                                 />
                             </Form.Item>
+
+                            <Form.Item></Form.Item>
                             <Form.Item label="Cover Image" rules={[{required: true, message: "Required"}]}>
                                 <Form.Item
                                     name="preview_img"
