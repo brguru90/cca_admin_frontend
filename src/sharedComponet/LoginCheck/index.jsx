@@ -1,5 +1,5 @@
 import React, {useEffect} from "react"
-import axios from "axios"
+// import axios from "axios"
 import {debounceAPI} from "../../utils/api_utils"
 
 export default function (OriginalComponent) {
@@ -7,10 +7,10 @@ export default function (OriginalComponent) {
 
     return function LoginCheck() {
         const loginCheck = () => {
-            testAPI.scheduleAPI.callback = (controller) =>
-                axios.get("/api/login_status/?access_level=super_admin&escape_str", {
-                    signal: controller.signal,
-                })
+            // testAPI.scheduleAPI.callback = (controller) =>
+            //     axios.get("/api/login_status/?access_level=super_admin&escape_str", {
+            //         signal: controller.signal,
+            //     })
         }
         let interval
         useEffect(async () => {

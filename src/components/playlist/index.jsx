@@ -1,30 +1,97 @@
 import React, {useEffect, useState} from "react"
 import "./style.scss"
-import {Form, Input, Button} from "antd"
-import TransferModal from "./transferModal"
+import {Form, Input, Button, Badge, InputNumber} from "antd"
+import axios from "axios"
+import TransferModal from "./update_playlist"
+import Swal from "sweetalert2"
+import {Toast} from "./../../utils/utils"
 
 export default function VideoPlaylist() {
     const [showModal, setShowModal] = useState(false)
     const [videosList, setVideosList] = useState([])
+    const [playList, setPlaylist] = useState([])
+    const [playListSelected, setPlaylistSelected] = useState([])
+
+    const getPlaylists = () => {
+        axios.get("/api/admin/playlist/").then((res) => {
+            if (res.status == 200 && res?.data?.status === "success") {
+                setPlaylist(res?.data?.data)
+            }
+        })
+    }
 
     const getVideos = () => {
-        fetch("/api/admin/upload_list/")
-            .then((resp) => resp.json())
-            .then((resp) => {
-                if (resp?.status === "success") {
-                    const videos = resp?.data?.map((video, id) => {
-                        video.key = id
-                        video.chosen = false
-                        return video
+        axios.get("/api/admin/upload_list/").then((res) => {
+            if (res.status == 200 && res?.data?.status === "success") {
+                const videos = res?.data?.data?.map((video) => {
+                    video.key = video["_id"]
+                    video.chosen = false
+                    return video
+                })
+                setVideosList(videos.filter((data) => data.is_live))
+            }
+        })
+    }
+
+    const createPlaylist = (values) => {
+        console.log({values})
+
+        const {title, description, price, enroll_days} = values
+        axios({
+            method: "post",
+            url: "/api/admin/playlist/",
+            data: JSON.stringify({
+                description,
+                enroll_days,
+                is_live: true,
+                price,
+                title,
+                videos_ids: [],
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => {
+                if (res.status == 200) {
+                    Toast.fire({
+                        icon: "success",
+                        title: "Added",
                     })
-                    setVideosList(videos)
+                    getPlaylists()
+                } else {
+                    Toast.fire({
+                        icon: "error",
+                        title: "failed",
+                    })
+                }
+            })
+            .catch((error) => {
+                if (error.response.status == 403) {
+                    Swal.fire({
+                        title: "wrong credential!",
+                        icon: "error",
+                        timer: 2000,
+                        timerProgressBar: true,
+                    })
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        icon: error?.response?.data?.status || "error",
+                        text: error?.response?.data?.msg,
+                    })
                 }
             })
     }
 
-    useEffect(getVideos, [])
+    useEffect(() => {
+        getVideos()
+        getPlaylists()
+    }, [])
+
     const handleOk = () => {
         setShowModal(false)
+        getPlaylists()
     }
 
     const handleCancel = () => {
@@ -38,7 +105,7 @@ export default function VideoPlaylist() {
                     <h1 className="form_title">Video Playlists</h1>
 
                     <div className="form_body">
-                        <Form name="basic" initialValues={{remember: true}} autoComplete="off">
+                        <Form name="basic" initialValues={{remember: true}} autoComplete="off" onFinish={createPlaylist}>
                             <div className="table-responsive">
                                 <table className="table table-hover" cellSpacing="0">
                                     <thead className="sticky-header thead-dark">
@@ -46,6 +113,7 @@ export default function VideoPlaylist() {
                                             <th scope="col">Title</th>
                                             <th scope="col">Description</th>
                                             <th scope="col">Price</th>
+                                            <th scope="col">Subscription duration</th>
                                             <th scope="col">isLive</th>
                                             <th scope="col">Update videos for playlist</th>
                                         </tr>
@@ -61,15 +129,16 @@ export default function VideoPlaylist() {
                                                 </Form.Item>
                                             </td>
                                             <td>
-                                                <Form.Item name="username" rules={[{required: true, message: "Required"}]}>
-                                                    <Input />
+                                                <Form.Item name="price" rules={[{required: true, message: "Required"}]}>
+                                                    <InputNumber />
                                                 </Form.Item>
                                             </td>
                                             <td>
-                                                <Form.Item name="username" rules={[{required: true, message: "Required"}]}>
-                                                    <Input />
+                                                <Form.Item name="enroll_days" rules={[{required: true, message: "Required"}]}>
+                                                    <InputNumber />
                                                 </Form.Item>
                                             </td>
+                                            <td></td>
                                             <td>
                                                 <Button type="primary" htmlType="submit">
                                                     Add
@@ -78,19 +147,27 @@ export default function VideoPlaylist() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {[1, 2, 3, 4, 5].map((video, index) => {
+                                        {playList.map((playlist) => {
                                             return (
-                                                <tr key={`${index} + ${Math.random()}`}>
-                                                    <th scope="row">UPSC course</th>
-                                                    <td>Basics of upsc</td>
-                                                    <td>Rs 100</td>
-                                                    <td>yes</td>
+                                                <tr key={playlist["_id"]}>
+                                                    <th scope="row">{playlist.title}</th>
+                                                    <td>{playlist.description}</td>
+                                                    <td>{playlist.price}</td>
+                                                    <td>{playlist.enroll_days} Days</td>
+                                                    <td>
+                                                        {" "}
+                                                        <Badge
+                                                            status={playlist.is_live ? "success" : "warning"}
+                                                            text={playlist.is_live ? "Yes" : "No"}
+                                                        />
+                                                    </td>
                                                     <td>
                                                         <Button
                                                             type="primary"
-                                                            htmlType="submit"
+                                                            htmlType="button"
                                                             onClick={() => {
                                                                 setShowModal(true)
+                                                                setPlaylistSelected(playlist)
                                                             }}
                                                         >
                                                             Update
@@ -106,7 +183,14 @@ export default function VideoPlaylist() {
                     </div>
                 </div>
             </div>
-            <TransferModal showModal={showModal} data={videosList} handleCancel={handleCancel} handleOk={handleOk} />
+            <TransferModal
+                showModal={showModal}
+                data={videosList}
+                preTargetData={playListSelected?.videos_ids?.map((list) => list["video_id"])}
+                playListKey={playListSelected["_id"]}
+                handleCancel={handleCancel}
+                handleOk={handleOk}
+            />
         </>
     )
 }

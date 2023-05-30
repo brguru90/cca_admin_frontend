@@ -57,11 +57,11 @@ export default function Home() {
                         <Menu.Item key="/home" icon={<HomeIcon className="menu_icon" />}>
                             <a onClick={() => navigateTo("/home")}>Dashboard</a>
                         </Menu.Item>
-                        <Menu.Item key="/video" icon={<VideoIcon className="menu_icon" />}>
-                            <a onClick={() => navigateTo("/video")}>Videos</a>
-                        </Menu.Item>
                         <Menu.Item key="/study_materials" icon={<BookIcon className="menu_icon" />}>
                             <a onClick={() => navigateTo("/study_materials")}>Study Materials</a>
+                        </Menu.Item>
+                        <Menu.Item key="/video" icon={<VideoIcon className="menu_icon" />}>
+                            <a onClick={() => navigateTo("/video")}>Videos</a>
                         </Menu.Item>
                         <Menu.Item key="/playlist" icon={<PlaylistIcon className="menu_icon" />}>
                             <a onClick={() => navigateTo("/playlist")}>Playlist</a>

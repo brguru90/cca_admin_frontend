@@ -1,0 +1,12 @@
+.update_playlist_modal {
+
+    min-width: 60vw;
+
+    .update_playlist_modal_body {
+
+        .ant-transfer-list{
+            width: 100%;
+            min-height: calc(80vh - 200px);
+        }
+    }
+}
