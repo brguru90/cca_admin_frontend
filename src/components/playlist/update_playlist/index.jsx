@@ -26,6 +26,7 @@ const TransferModal = (props) => {
             return {
                 display_order: index,
                 video_id: key,
+                title: playlist_id_map[key]?.title,
                 link_to_video_preview_image: playlist_id_map[key]?.link_to_video_preview_image,
                 link_to_video_stream: playlist_id_map[key]?.link_to_video_stream,
             }

@@ -130,7 +130,7 @@ export default function VideoPlaylist() {
                                             </td>
                                             <td>
                                                 <Form.Item name="price" rules={[{required: true, message: "Required"}]}>
-                                                    <InputNumber />
+                                                    <InputNumber min={0} />
                                                 </Form.Item>
                                             </td>
                                             <td>
@@ -155,7 +155,6 @@ export default function VideoPlaylist() {
                                                     <td>{playlist.price}</td>
                                                     <td>{playlist.enroll_days} Days</td>
                                                     <td>
-                                                        {" "}
                                                         <Badge
                                                             status={playlist.is_live ? "success" : "warning"}
                                                             text={playlist.is_live ? "Yes" : "No"}
@@ -166,8 +165,8 @@ export default function VideoPlaylist() {
                                                             type="primary"
                                                             htmlType="button"
                                                             onClick={() => {
+                                                                setPlaylistSelected(Object.assign({}, playlist))
                                                                 setShowModal(true)
-                                                                setPlaylistSelected(playlist)
                                                             }}
                                                         >
                                                             Update
@@ -186,7 +185,7 @@ export default function VideoPlaylist() {
             <TransferModal
                 showModal={showModal}
                 data={videosList}
-                preTargetData={playListSelected?.videos_ids?.map((list) => list["video_id"])}
+                preTargetData={playListSelected?.videos_ids?.map((list) => list["video_id"]) || []}
                 playListKey={playListSelected["_id"]}
                 handleCancel={handleCancel}
                 handleOk={handleOk}
