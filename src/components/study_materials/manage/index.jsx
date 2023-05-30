@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import "./style.scss"
 import axios from "axios"
-import {Button, Table, Space, Badge} from "antd"
+import {Button, Table, Space} from "antd"
 import {useEffect} from "react"
 import Swal from "sweetalert2"
 
@@ -50,13 +50,6 @@ export default function ManageStudyMaterials() {
         {
             title: "Author",
             dataIndex: "created_by_user",
-        },
-        {
-            title: "Visibility",
-            dataIndex: "is_live",
-            render: function VisibilityStatus(status) {
-                return <Badge status={status ? "success" : "warning"} text={status ? "visible" : "hidden"} />
-            },
         },
         {
             title: "Price",

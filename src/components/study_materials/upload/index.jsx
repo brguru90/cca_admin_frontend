@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react"
 import "./style.scss"
-import {Button, Checkbox, Form, Input, Upload, Space, Select, Divider} from "antd"
+import {Button, Form, Input, Upload, Space, Select, Divider} from "antd"
 import {InboxOutlined, PlusOutlined} from "@ant-design/icons"
 import axios from "axios"
 import Swal from "sweetalert2"
@@ -28,20 +28,20 @@ export default function UploadStudyMaterial() {
         }, 0)
     }
 
-    const fetchdocList = () => {
-        axios.get("/api/admin/doc_upload_list/").then((res) => {
-            if (res.status == 200) {
-                setCategories([...new Set(res.data?.data?.map((item) => item.category))])
+    const fetchCategories = () => {
+        axios.get("/api/user/study_materials_categories/").then((res) => {
+            if (res.status == 200 && res.data?.data?.length) {
+                setCategories(res.data?.data?.map((cat) => cat?.title))
             }
         })
     }
 
     useEffect(() => {
-        fetchdocList()
+        fetchCategories()
     }, [])
 
     const onFinish = (values) => {
-        const {title, created_by, description, price, is_live, category, enroll_days} = values
+        const {title, created_by, description, price, category, enroll_days} = values
 
         console.log({
             onFinish: {
@@ -60,7 +60,7 @@ export default function UploadStudyMaterial() {
         formData.append("category", category)
         formData.append("author", created_by)
         formData.append("description", description)
-        formData.append("is_live", is_live || false)
+        formData.append("is_live", true)
         axios({
             method: "post",
             url: "/api/admin/upload_study_material/",
@@ -127,9 +127,6 @@ export default function UploadStudyMaterial() {
                             <Form.Item label="Price" name="price">
                                 <Input />
                             </Form.Item>
-                            <Form.Item label="Enroll for days" name="enroll_days">
-                                <Input />
-                            </Form.Item>
                             <Form.Item label="Document">
                                 <Form.Item
                                     name="doc_file"
@@ -157,9 +154,6 @@ export default function UploadStudyMaterial() {
                             <Form.Item label="Author" name="created_by" rules={[{required: true, message: "Required"}]}>
                                 <Input />
                             </Form.Item>
-                            <Form.Item name="is_live" label="visibility" valuePropName="checked">
-                                <Checkbox>Visible</Checkbox>
-                            </Form.Item>
                             <Form.Item label="Category" name="category" rules={[{required: true, message: "Required"}]}>
                                 <Select
                                     style={{width: 300}}
@@ -179,8 +173,9 @@ export default function UploadStudyMaterial() {
                                     options={categories.map((item) => ({label: item, value: item}))}
                                 />
                             </Form.Item>
-
-                            <Form.Item></Form.Item>
+                            <Form.Item label="Enroll for days" name="enroll_days">
+                                <Input />
+                            </Form.Item>
                             <Form.Item label="Cover Image" rules={[{required: true, message: "Required"}]}>
                                 <Form.Item
                                     name="preview_img"
