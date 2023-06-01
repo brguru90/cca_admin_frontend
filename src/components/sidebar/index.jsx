@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useEffect, useState} from "react"
 import "./style.scss"
 import {Outlet, useNavigate} from "react-router-dom"
 import {Layout, Menu} from "antd"
@@ -17,10 +17,15 @@ import Swal from "sweetalert2"
 export default function Home() {
     const {Header, Sider, Content} = Layout
     let navigate = useNavigate()
+    const [accessLevel, setAccessLevel] = useState(null)
     // const { SubMenu } = Menu;
 
     const [collapsed, setCollapsed] = useState(false)
     const toggleSlideBar = () => setCollapsed((state) => !state)
+
+    useEffect(() => {
+        setAccessLevel(sessionStorage.getItem("super_admin") == "true")
+    }, [])
 
     const Logout = () => {
         axios
@@ -69,9 +74,11 @@ export default function Home() {
                         <Menu.Item key="/subscriptions" icon={<UsersIcon className="menu_icon" />}>
                             <a onClick={() => navigateTo("/subscriptions")}>Subscriptions</a>
                         </Menu.Item>
-                        <Menu.Item key="/users" icon={<AdminUsers className="menu_icon" />}>
-                            <a onClick={() => navigateTo("/users")}>Users</a>
-                        </Menu.Item>
+                        {accessLevel && (
+                            <Menu.Item key="/users" icon={<AdminUsers className="menu_icon" />}>
+                                <a onClick={() => navigateTo("/users")}>Users</a>
+                            </Menu.Item>
+                        )}
                         <Menu.Item key="/logout" icon={<LogoutIcon className="menu_icon" />}>
                             <a onClick={Logout}>Logout</a>
                         </Menu.Item>

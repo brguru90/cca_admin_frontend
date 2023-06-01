@@ -11,7 +11,7 @@ export default function Login() {
 
     const LoginStatusCheck = () => {
         axios
-            .get("/api/login_status/?access_level=super_admin")
+            .get("/api/login_status/?access_level=admin")
             .then((res) => {
                 if (res.status == 200) {
                     console.log({res})
@@ -28,7 +28,7 @@ export default function Login() {
     const onSubmit = ({email, password}) => {
         axios({
             method: "post",
-            url: "/api/login/?access_level=super_admin",
+            url: "/api/login/",
             data: JSON.stringify({email, password}), // you are sending body instead
             headers: {
                 "Content-Type": "application/json",
@@ -36,6 +36,7 @@ export default function Login() {
         })
             .then((res) => {
                 console.log({res})
+                sessionStorage.setItem("super_admin", res?.data?.data?.access_level == "super_admin" ? "true" : "false")
                 navigate("/home")
             })
             .catch((error) => {
@@ -78,12 +79,7 @@ export default function Login() {
                     >
                         <Input type="email" />
                     </Form.Item>
-                    <Form.Item
-                        label="Password"
-                        name="password"
-                        initialValue={"1234"}
-                        rules={[{required: true, message: "Please input your password!"}]}
-                    >
+                    <Form.Item label="Password" name="password" initialValue={""} rules={[{required: true, message: "Please input your password!"}]}>
                         <Input.Password />
                     </Form.Item>
                     <Form.Item wrapperCol={{offset: 8, span: 16}}>

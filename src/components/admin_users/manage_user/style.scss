@@ -1,0 +1,9 @@
+.manage_user_modal {
+
+    min-width: 60vw;
+
+    .manage_user_modal_body {
+        width: 100%;
+        min-height: calc(80vh - 200px);
+    }
+}

@@ -6,7 +6,7 @@ axios.interceptors.response.use(
     (error) => {
         if (error?.code == "ERR_CANCELED") return error
         const originalRequest = error.config
-        if (!originalRequest.url.includes("api/login/") && !originalRequest.url.endsWith("api/login_status/?access_level=super_admin")) {
+        if (!originalRequest.url.includes("api/login/") && !originalRequest.url.includes("api/login_status/?access_level")) {
             if (error.response.status == 400 || error.response.status == 403) {
                 Swal.fire({
                     title: "Logged out",
