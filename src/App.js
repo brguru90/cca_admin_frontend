@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import "./App.scss"
-import {BrowserRouter, Routes, Route} from "react-router-dom"
+import {HashRouter, Routes, Route} from "react-router-dom"
 import SideBar from "./components/sidebar/index.jsx"
 import Login from "./pages/login.jsx"
 import Home from "./pages/home.jsx"
@@ -16,7 +16,7 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <BrowserRouter>
+                <HashRouter>
                     <Routes>
                         <Route path="/" exact element={<Login />} />
                         <Route path="/" element={<SideBar />}>
@@ -29,7 +29,7 @@ export default class App extends Component {
                         </Route>
                         <Route path="*" element={<h1>404 Not found</h1>} />
                     </Routes>
-                </BrowserRouter>
+                </HashRouter>
             </div>
         )
     }

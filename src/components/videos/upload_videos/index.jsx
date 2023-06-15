@@ -10,6 +10,9 @@ export default function UploadVideos() {
     const [videoUploadList, setVideoUploadList] = useState([])
     const [imageUploadList, setImageUploadList] = useState([])
 
+    const [uploadInProgress, setUploadInProgress] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(0)
+
     const onFinish = (values) => {
         const {title, created_by, description, is_live} = values
 
@@ -28,12 +31,19 @@ export default function UploadVideos() {
         formData.append("created_by", created_by)
         formData.append("description", description)
         formData.append("is_live", is_live || false)
+        setUploadInProgress(true)
+        setUploadProgress(0)
         axios({
             method: "post",
             url: "/api/admin/upload_streaming_video/",
             data: formData, // you are sending body instead
             headers: {
                 "Content-Type": "multipart/form-data",
+            },
+            onUploadProgress: (progressEvent) => {
+                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                console.log({percentCompleted})
+                setUploadProgress(percentCompleted)
             },
         })
             .then((res) => {
@@ -65,6 +75,7 @@ export default function UploadVideos() {
                     })
                 }
             })
+            .finally(() => setUploadInProgress(false))
     }
 
     return (
@@ -82,6 +93,7 @@ export default function UploadVideos() {
                         // onFinishFailed={onFinishFailed}
                         autoComplete="off"
                         className="actual_form"
+                        disabled={uploadInProgress}
                     >
                         <div className="form_col">
                             <Form.Item label="Title" name="title" rules={[{required: true, message: "Required"}]}>
@@ -141,6 +153,7 @@ export default function UploadVideos() {
                                 </Button>
                             </Form.Item>
                         </div>
+                        {uploadInProgress && <h4>Upload progress {uploadProgress}%</h4>}
                     </Form>
                 </div>
             </div>

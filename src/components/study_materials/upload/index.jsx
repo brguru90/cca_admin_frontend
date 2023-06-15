@@ -10,6 +10,9 @@ export default function UploadStudyMaterial() {
     const [studyMaterialUploadList, setStudyMaterialUploadList] = useState([])
     const [imageUploadList, setImageUploadList] = useState([])
 
+    const [uploadInProgress, setUploadInProgress] = useState(false)
+    const [uploadProgress, setUploadProgress] = useState(0)
+
     const [categories, setCategories] = useState([])
     const [name, setCategory] = useState("")
     const inputRef = useRef(null)
@@ -61,12 +64,19 @@ export default function UploadStudyMaterial() {
         formData.append("author", created_by)
         formData.append("description", description)
         formData.append("is_live", true)
+        setUploadInProgress(true)
+        setUploadProgress(0)
         axios({
             method: "post",
             url: "/api/admin/upload_study_material/",
             data: formData, // you are sending body instead
             headers: {
                 "Content-Type": "multipart/form-data",
+            },
+            onUploadProgress: (progressEvent) => {
+                const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+                console.log({percentCompleted})
+                setUploadProgress(percentCompleted)
             },
         })
             .then((res) => {
@@ -98,6 +108,7 @@ export default function UploadStudyMaterial() {
                     })
                 }
             })
+            .finally(() => setUploadInProgress(false))
     }
 
     return (
@@ -115,6 +126,7 @@ export default function UploadStudyMaterial() {
                         // onFinishFailed={onFinishFailed}
                         autoComplete="off"
                         className="actual_form"
+                        disabled={uploadInProgress}
                     >
                         <div className="form_col">
                             <Form.Item label="Title" name="title" rules={[{required: true, message: "Required"}]}>
@@ -201,6 +213,7 @@ export default function UploadStudyMaterial() {
                                 </Button>
                             </Form.Item>
                         </div>
+                        {uploadInProgress && <h4>Upload progress {uploadProgress}%</h4>}
                     </Form>
                 </div>
             </div>
