@@ -126,7 +126,7 @@ export default function UploadVideos() {
                                 <Input />
                             </Form.Item>
                             <Form.Item name="is_live" label="Video visibility" valuePropName="checked">
-                                <Checkbox>Visible</Checkbox>
+                                <Checkbox disabled={true}>Visible</Checkbox>
                             </Form.Item>
                             <Form.Item label="Preview Image" rules={[{required: true, message: "Required"}]}>
                                 <Form.Item

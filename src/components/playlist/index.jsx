@@ -84,6 +84,59 @@ export default function VideoPlaylist() {
             })
     }
 
+    const deletePlaylist = (playlist_id) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "The user enrolled to playlist will not able to access it",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axios({
+                    method: "delete",
+                    url: "/api/admin/playlist/",
+                    data: JSON.stringify({playlist_id}),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    .then((res) => {
+                        if (res.status == 200) {
+                            Toast.fire({
+                                icon: "success",
+                                title: "Deleted",
+                            })
+                            getPlaylists()
+                        } else {
+                            Toast.fire({
+                                icon: "error",
+                                title: "failed",
+                            })
+                        }
+                    })
+                    .catch((error) => {
+                        if (error.response.status == 403) {
+                            Swal.fire({
+                                title: "wrong credential!",
+                                icon: "error",
+                                timer: 2000,
+                                timerProgressBar: true,
+                            })
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                icon: error?.response?.data?.status || "error",
+                                text: error?.response?.data?.msg,
+                            })
+                        }
+                    })
+            }
+        })
+    }
+
     useEffect(() => {
         getVideos()
         getPlaylists()
@@ -115,7 +168,8 @@ export default function VideoPlaylist() {
                                             <th scope="col">Price</th>
                                             <th scope="col">Subscription duration</th>
                                             <th scope="col">isLive</th>
-                                            <th scope="col">Update videos for playlist</th>
+                                            <th scope="col">Update</th>
+                                            <th scope="col">Delete</th>
                                         </tr>
                                         <tr className="table_form">
                                             <td>
@@ -138,6 +192,7 @@ export default function VideoPlaylist() {
                                                     <InputNumber />
                                                 </Form.Item>
                                             </td>
+                                            <td></td>
                                             <td></td>
                                             <td>
                                                 <Button type="primary" htmlType="submit">
@@ -170,6 +225,17 @@ export default function VideoPlaylist() {
                                                             }}
                                                         >
                                                             Update
+                                                        </Button>
+                                                    </td>
+                                                    <td>
+                                                        <Button
+                                                            type="primary"
+                                                            htmlType="button"
+                                                            onClick={() => {
+                                                                deletePlaylist(playlist["_id"])
+                                                            }}
+                                                        >
+                                                            Delete
                                                         </Button>
                                                     </td>
                                                 </tr>
