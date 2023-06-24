@@ -30,5 +30,16 @@
                 text-align: left;
             }
         }
+
+        .center_blk{
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+
+    .privacy_policy_cta{
+        display:flex ;
+        justify-content: end;
     }
 }

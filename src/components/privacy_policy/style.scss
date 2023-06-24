@@ -1,0 +1,27 @@
+.privacy_policy{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .privacy_policy_container{
+        max-width: max(50%,460px);
+        width: 90%;
+        padding: 40px 5px;
+        font-size: 18px;
+
+        .title{
+            font-size: 30px;
+        }
+
+        .effective_from{
+            font-size: 20px;
+        }
+
+        .list_title{
+            font-weight: bold;
+        }
+
+        .list_content{
+            padding-inline-start: 20px;
+        }
+    }
+}

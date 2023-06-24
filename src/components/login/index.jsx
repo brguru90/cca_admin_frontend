@@ -1,7 +1,7 @@
 import React from "react"
 import "./style.scss"
 import {Button, Form, Input} from "antd"
-import {useNavigate} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import axios from "axios"
 import Swal from "sweetalert2"
 import {useEffect} from "react"
@@ -82,13 +82,18 @@ export default function Login() {
                     <Form.Item label="Password" name="password" initialValue={""} rules={[{required: true, message: "Please input your password!"}]}>
                         <Input.Password />
                     </Form.Item>
-                    <Form.Item wrapperCol={{offset: 8, span: 16}}>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
+                    <div className="center_blk">
+                        <Form.Item wrapperCol={{span: 16}}>
+                            <Button type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                    </div>
                 </Form>
             </fieldset>
+            <div className="privacy_policy_cta">
+                <Link to={"/privacy_policy"}>Privacy Policy</Link>
+            </div>
         </div>
     )
 }

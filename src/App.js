@@ -11,6 +11,7 @@ import Subscriptions from "./pages/subscriptions"
 import Users from "./pages/users"
 import "./utils/login_check"
 import "antd/dist/antd.css"
+import PrivacyPolicyPage from "./pages/privacy_policy"
 
 export default class App extends Component {
     render() {
@@ -19,6 +20,7 @@ export default class App extends Component {
                 <HashRouter>
                     <Routes>
                         <Route path="/" exact element={<Login />} />
+                        <Route path="/privacy_policy" exact element={<PrivacyPolicyPage />} />
                         <Route path="/" element={<SideBar />}>
                             <Route path="/home" exact element={<Home />} />
                             <Route path="/video" exact element={<Video />} />
