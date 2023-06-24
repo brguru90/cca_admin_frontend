@@ -253,6 +253,7 @@ export default function VideoPlaylist() {
                 data={videosList}
                 preTargetData={playListSelected?.videos_ids?.map((list) => list["video_id"]) || []}
                 playListKey={playListSelected["_id"]}
+                playListSelected={playListSelected}
                 handleCancel={handleCancel}
                 handleOk={handleOk}
             />

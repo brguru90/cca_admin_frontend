@@ -4,6 +4,12 @@
 
     .update_playlist_modal_body {
 
+        .update_playlist_inputs>div{
+            display: flex;
+            flex-direction: row;
+            column-gap: 40px;
+        }
+
         .ant-transfer-list{
             width: 100%;
             min-height: calc(80vh - 200px);

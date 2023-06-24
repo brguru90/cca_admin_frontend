@@ -1,0 +1,18 @@
+.user_subscriptions{
+
+    display: flex;
+    flex-direction: column;
+
+
+    .title{
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    .subscription_for_type{
+        .sub_title{
+            font-size: 20px;
+        }
+    }
+
+}

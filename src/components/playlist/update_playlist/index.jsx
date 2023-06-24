@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react"
-import {Modal, Transfer} from "antd"
+import {Modal, Transfer, Form, Input} from "antd"
 import axios from "axios"
 import Swal from "sweetalert2"
 import {Toast} from "./../../../utils/utils"
@@ -9,9 +9,17 @@ const TransferModal = (props) => {
     const [targetKeys, setTargetKeys] = useState(props?.preTargetData || [])
     const [playlist_id_map, set_playlist_id_map] = useState({})
 
+    const [price, setPrice] = useState(props?.playListSelected?.price)
+    const [enrollDays, setEnrollDays] = useState(props?.playListSelected?.enroll_days)
+
     useEffect(() => {
         setTargetKeys(props?.preTargetData || [])
     }, [props?.preTargetData])
+
+    useEffect(() => {
+        setPrice(props?.playListSelected?.price)
+        setEnrollDays(props?.playListSelected?.enroll_days)
+    }, [props?.playListSelected])
 
     useEffect(() => {
         const temp = {}
@@ -38,6 +46,8 @@ const TransferModal = (props) => {
             data: JSON.stringify({
                 videos_ids: videos_data,
                 playlist_id: props?.playListKey,
+                price: Number(price) || Number(props?.playListSelected?.price),
+                enroll_days: Number(enrollDays) || Number(props?.playListSelected?.enroll_days),
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -96,11 +106,24 @@ const TransferModal = (props) => {
 
     return (
         <>
-            <Modal className="update_playlist_modal" title="Create a playlist" open={props?.showModal} onOk={handleOk} onCancel={handleCancel}>
+            <Modal className="update_playlist_modal" title={`Update a playlist`} open={props?.showModal} onOk={handleOk} onCancel={handleCancel}>
                 <div className="update_playlist_modal_body">
+                    <div className="update_playlist_inputs">
+                        <p>
+                            <b>Title:</b> {props?.playListSelected?.title}
+                        </p>
+                        <div>
+                            <Form.Item label="Price">
+                                <Input value={price} onChange={(e) => setPrice(e.target.value)} type="number" />
+                            </Form.Item>
+                            <Form.Item label="Enroll for days">
+                                <Input value={enrollDays} onChange={(e) => setEnrollDays(e.target.value)} type="number" />
+                            </Form.Item>
+                        </div>
+                    </div>
                     <Transfer
                         dataSource={props.data}
-                        showSearch
+                        // showSearch
                         filterOption={filterOption}
                         targetKeys={targetKeys}
                         onChange={handleChange}
