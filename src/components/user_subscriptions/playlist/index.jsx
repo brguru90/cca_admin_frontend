@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react"
 import "./style.scss"
-import {Table, Badge} from "antd"
+import {Table, Badge, Button} from "antd"
 import axios from "axios"
+import {Excel} from "antd-table-saveas-excel"
 
 export default function PlaylistUserSubscription() {
     const [data, setData] = useState([])
@@ -28,7 +29,7 @@ export default function PlaylistUserSubscription() {
         fetchData()
     }, [])
 
-    const columns = [
+    const original_cols = [
         {
             title: "User name",
             dataIndex: "username",
@@ -39,6 +40,7 @@ export default function PlaylistUserSubscription() {
         },
         {
             title: "First subscription",
+            dataIndex: "initial_subscription_date",
             render: (id, row) => new Date(row?.initial_subscription_date).toLocaleString(),
             sorter: (a, b) => {
                 return new Date(a.initial_subscription_date) > new Date(b.initial_subscription_date)
@@ -50,21 +52,15 @@ export default function PlaylistUserSubscription() {
             dataIndex: "price",
         },
         {
-            title: "Enabled",
-            dataIndex: "is_enabled",
-            render: function VisibilityStatus(status) {
-                return <Badge status={status ? "success" : "warning"} text={status ? "yes" : "no"} />
-            },
-        },
-        {
             title: "Subscribed on",
-            render: (id, row) => new Date(row?.subscriptions.subscribed_on).toLocaleString(),
+            dataIndex: ["subscriptions", "subscribed_on"],
             sorter: (a, b) => {
                 return new Date(a.subscriptions.subscribed_on) > new Date(b.subscriptions.subscribed_on)
             },
         },
         {
             title: "Expire On",
+            dataIndex: "expired_on",
             render: (id, row) => new Date(row?.expired_on).toLocaleString(),
             sorter: (a, b) => {
                 return new Date(a.expired_on) > new Date(b.expired_on)
@@ -72,7 +68,7 @@ export default function PlaylistUserSubscription() {
         },
         {
             title: "Amount paid",
-            render: (id, row) => row?.subscriptions.amount_paid,
+            dataIndex: ["subscriptions", "amount_paid"],
         },
         {
             title: "Last updated",
@@ -91,11 +87,45 @@ export default function PlaylistUserSubscription() {
         },
     ]
 
+    const columns = [
+        ...original_cols,
+        {
+            title: "Enabled",
+            dataIndex: "is_enabled",
+            render: function VisibilityStatus(status) {
+                return <Badge status={status ? "success" : "warning"} text={status ? "yes" : "no"} />
+            },
+        },
+    ]
+
+    const exportTable = () => {
+        const excel = new Excel()
+        excel
+            .addSheet("video - user subscriptions")
+            .addColumns([
+                ...original_cols,
+                {
+                    title: "Enabled",
+                    dataIndex: "is_enabled",
+                },
+            ])
+            .addDataSource(data, {
+                str2Percent: true,
+            })
+            .saveAs("Excel.xlsx")
+    }
+
     return (
         <div className="playlist_user_subscriptions">
             <div className="subscription_for_type">
                 <div className="sub_title">Video subscriptions</div>
+                <br />
                 <div className="subscription_list">
+                    <Button type="primary" onClick={exportTable}>
+                        Export
+                    </Button>
+                    <br />
+                    <br />
                     <Table columns={columns} dataSource={data} />
                 </div>
             </div>
